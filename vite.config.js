@@ -6,7 +6,9 @@ export default vite.defineConfig({
 
     server: {
         port: 6767,
-        mimeTypes: { '.module.css': 'text/css' }
+        mimeTypes: {
+            '.module.css': 'text/css'
+        }
     },
 
     css: {
