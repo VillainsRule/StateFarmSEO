@@ -9,32 +9,37 @@ import { Line } from 'react-chartjs-2';
 import styles from './style.module.css';
 
 function App() {
+    let isZertEnabled = false;
+
     let [stats, setStats] = useState({ sf: [], zert: [], lib: [], shell: [] });
 
     useEffect(() => {
         (async () => {
             let sf = await axios.get('https://greasyfork.org/scripts/482982/stats.json');
-            let zert = await axios.get('https://greasyfork.org/scripts/436330/stats.json');
             let lib = await axios.get('https://greasyfork.org/scripts/484168/stats.json');
             let shell = await axios.get('https://greasyfork.org/scripts/485745/stats.json');
 
-            sf = Object.fromEntries(Object.entries(sf.data).slice(-69));
-            zert = Object.fromEntries(Object.entries(zert.data).slice(-69));
-            lib = Object.fromEntries(Object.entries(lib.data).slice(-69));
-            shell = Object.fromEntries(Object.entries(shell.data).slice(-69));
+            let zert;
+            if (isZertEnabled)
+                zert = await axios.get('https://greasyfork.org/scripts/436330/stats.json');
 
-            setStats({ sf, zert, lib, shell });
+            setStats({
+                sf: Object.fromEntries(Object.entries(sf.data).slice(-300)),
+                zert: isZertEnabled ? Object.fromEntries(Object.entries(zert.data).slice(-300)) : null,
+                lib: Object.fromEntries(Object.entries(lib.data).slice(-300)),
+                shell: Object.fromEntries(Object.entries(shell.data).slice(-300))
+            });
         })();
     }, []);
 
     return (
         <>
             <div className={styles.main}>
-                <div className={styles.desc}>on may 10th, 2024, one of the statefarm developers suggested adding "shell shockers" to the beginning of the statefarm script to increase SEO on greasyfork. we have another "competitor", zertalious, who has adware-filled "script" with nearly no features that was beating us in installs. once we made these SEO changes to statefarm (and a few other partner scripts), we instantly did better in installs - can you tell?</div>
+                <div className={styles.desc}>on may 10th, 2024, one of the statefarm developers suggested adding "shell shockers" to the beginning of the statefarm script to increase SEO on greasyfork. we have another "competitor", zertalious, who has adware-filled "script" with nearly no features that was beating us in installs. once we made these SEO changes to statefarm (and a few other partner scripts), we instantly did better in installs - can you tell?<br /><br />AS OF 10/3, ZERT IS GONE! WATCH THE SEO GO UP!</div>
 
                 <div className={styles.key}>
                     <span className={styles.circle} style={{ background: 'rgb(255, 99, 132)' }} />
-                    zert
+                    <s>zert</s>
                     <span className={styles.circle} style={{ background: 'rgb(53, 162, 235)', marginLeft: '3vw' }} />
                     statefarm
                     <span className={styles.circle} style={{ background: '#35eb41', marginLeft: '3vw' }} />
@@ -43,7 +48,7 @@ function App() {
                     shellfarm
                 </div>
 
-                {Object.keys(stats.sf).length && Object.keys(stats.zert).length ?
+                {Object.keys(stats.sf).length && (isZertEnabled ? Object.keys(stats.zert).length : true) ?
                     <Line className={styles.chart} options={{
                         plugins: {
                             legend: { display: false },
@@ -51,12 +56,12 @@ function App() {
                         }
                     }} data={{
                         labels: Object.keys(stats.sf),
-                        datasets: [{
+                        datasets: [(isZertEnabled ? {
                             label: 'zert',
                             data: Object.values(stats.zert).map(x => x.installs),
                             borderColor: 'rgb(255, 99, 132)',
                             backgroundColor: 'rgb(255, 99, 132)'
-                        }, {
+                        } : null), {
                             label: 'statefarm',
                             data: Object.values(stats.sf).map(x => x.installs),
                             borderColor: 'rgb(53, 162, 235)',
