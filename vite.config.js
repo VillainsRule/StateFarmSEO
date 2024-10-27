@@ -23,10 +23,6 @@ export default vite.defineConfig({
         outDir: './dist',
         rollupOptions: {
             output: {
-                manualChunks: (id) => {
-                    if (id.includes('node_modules')) return 'vendor';
-                    else return 'main';
-                },
                 chunkFileNames: '[hash].js',
                 entryFileNames: '[hash].js',
                 assetFileNames: '[hash].[ext]'
