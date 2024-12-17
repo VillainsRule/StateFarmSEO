@@ -23,11 +23,9 @@ export default vite.defineConfig({
         outDir: './dist',
         rollupOptions: {
             output: {
-                chunkFileNames: '[hash].js',
-                entryFileNames: '[hash].js',
-                assetFileNames: '[hash].[ext]'
+                entryFileNames: 'seo.build.js',
+                assetFileNames: 'seo.build.[ext]'
             }
-        },
-        chunkSizeWarningLimit: 1000
+        }
     }
 });

@@ -8,7 +8,7 @@ import { Line } from 'react-chartjs-2';
 
 import styles from './style.module.css';
 
-let history = 200;
+let history = Math.floor((new Date() - new Date('2024-04-01')) / (1000 * 60 * 60 * 24));
 
 function App() {
     let [keys, setKeys] = useState([]);
@@ -40,7 +40,28 @@ function App() {
     return (
         <>
             <div className={styles.main}>
-                <div className={styles.desc}>on may 10th, 2024, one of the statefarm developers suggested adding "shell shockers" to the beginning of the statefarm script to increase SEO on greasyfork. we have another "competitor", zertalious, who has adware-filled "script" with nearly no features that was beating us in installs. once we made these SEO changes to statefarm (and a few other partner scripts), we instantly did better in installs - can you tell?<br /><br />AS OF 10/3, ZERT IS GONE! WATCH THE SEO GO UP! zert went back up a whopping 2 weeks later, and still with his "fixed" code (the solution is straight from statefarm) he cannot manage to get near our numbers.</div>
+                <div className={styles.desc}>
+                    this graph is basically unedited proof that your product SEO controls who it reaches.<br /><br />
+
+                    for a long time in the Shell Shockers community, a developer named zertalious was the only one making cheats
+                    (because he would takedown anyone else who tried), so upon Google & Greasyfork searching, he was always #1.<br /><br />
+
+                    in january of 2024, another client named statefarm grew, and despite zertalious's attempts to take it down,
+                    statefarm remained active. however, due to how big a name zertalious was, statefarm was always #2 on results.<br /><br />
+
+                    this is an amazing case study on how SEO can control who sees your product.<br /><br />
+
+                    the name of statefarm client was "StateFarmClient v3: Combat, ESP, Bloom..."<br />
+                    the name of zertalious's client was "Shellshock.IO Aimbot & ESP"<br /><br />
+
+                    it doesn't really take a genius to figure out the problem. despite being on all of the listings for shell
+                    shockers, statefarm didn't actually have the needed words to just be #1.<br /><br />
+
+                    on may 10th, 2024, one of the statefarm developers suggested adding "shell shockers" to the beginning of the name,
+                    which the graph below proves worked like a charm.<br /><br />
+
+                    this also just shows general client stats and has a few other clients. enjoy the show!
+                </div>
 
                 <div className={styles.key}>{scripts.map(x => <>
                     <span className={styles.circle} style={{ background: x.color }} />
@@ -51,7 +72,8 @@ function App() {
                     plugins: {
                         legend: { display: false },
                         title: { display: false }
-                    }
+                    },
+                    pointRadius: 0
                 }} data={{
                     labels: keys || ['loading...'],
                     datasets: data.map(x => ({
@@ -61,11 +83,6 @@ function App() {
                         backgroundColor: x.color
                     }))
                 }} />}
-
-                <div className={styles.footer}>
-                    does this prove something? good, go try <span className={styles.link} onClick={() => window.open('https://greasyfork.org/scripts/482982', '_blank')}>statefarm</span>.
-                    or, <span className={styles.link} onClick={() => window.open('https://github.com/HydroFlame522/StateFarmClient', '_blank')}>read the source</span>.
-                </div>
             </div>
         </>
     )
